@@ -1,0 +1,32 @@
+services:
+  # Backend Service
+  backend:
+    build:
+      context: ./VitoTechWebsiteBackend
+    container_name: vito_backend
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount the code so changes update without rebuilding (good for dev)
+      - ./VitoTechWebsiteBackend:/app
+    environment:
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend
+      # Add other env vars here or use an env_file
+      # Command to run migrations and then start the server
+    command: sh -c "python manage.py migrate && gunicorn VitoTechWebsite.wsgi:application --bind 0.0.0.0:8000"
+
+  # Frontend Service
+  frontend:
+    build:
+      context: ./VitoTechWebsiteFrontend
+    container_name: vito_frontend
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    # No volumes needed for frontend in production mode usually, 
+    # but for dev you might want to run 'npm run dev' instead of nginx.
+    # This setup is simulating the PRODUCTION build.
+
+    # Jenkins Service (Optional: Run Jenkins locally or on server)
+    # You can run this with: docker-compose -f docker-compose.jenkins.yml up -d
