@@ -5,7 +5,7 @@ services:
       context: ./VitoTechWebsiteBackend
     container_name: vito_backend
     ports:
-      - "8000:8000"
+      - "9001:8000"
     volumes:
       # Mount the code so changes update without rebuilding (good for dev)
       - ./VitoTechWebsiteBackend:/app
@@ -21,7 +21,7 @@ services:
       context: ./VitoTechWebsiteFrontend
     container_name: vito_frontend
     ports:
-      - "80:80"
+      - "9000:80"
     depends_on:
       - backend
     # No volumes needed for frontend in production mode usually, 
