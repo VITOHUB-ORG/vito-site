@@ -81,7 +81,7 @@ const Navbar: React.FC = () => {
               className="inline-flex items-center"
             >
               <img
-                src="images/vt4-1.png"
+                src="images/vto/VITOHUBB.png"
                 alt="VitoTech"
                 className="h-8 w-auto"
               />

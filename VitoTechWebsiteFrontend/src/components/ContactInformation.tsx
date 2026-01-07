@@ -54,7 +54,7 @@ export default function ContactInformation() {
                 href="tel:+255627857470"
                 className="block text-center text-gray-700 font-medium hover:text-blue-600 transition-colors duration-300 text-sm"
               >
-                +255-627-857-470
+                +255-658-625-234
               </a>
             </div>
           </article>
