@@ -238,7 +238,7 @@ pipeline {
                             docker-compose pull
                             
                             echo "Starting new containers..."
-                            docker-compose up -d --remove-orphans
+                            docker-compose up -d
                             
                             echo "Waiting for services to be healthy..."
                             sleep 10
