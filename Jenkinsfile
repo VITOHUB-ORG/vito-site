@@ -197,7 +197,7 @@ pipeline {
                     try {
                         // Create backup of current running containers (optional)
                         sh """
-                            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} '
+                            ssh -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} '
                                 cd /root/vito
                                 # Create backup directory with timestamp
                                 BACKUP_DIR=/root/vito-backups/backup-\$(date +%Y%m%d-%H%M%S)
@@ -223,11 +223,11 @@ pipeline {
                     echo '========================================='
                     try {
                         // 1. Copy configuration files
-                        sh "scp docker-compose.yml ${SERVER_USER}@${SERVER_IP}:/root/vito/docker-compose.yml"
+                        sh "scp -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no docker-compose.yml ${SERVER_USER}@${SERVER_IP}:/root/vito/docker-compose.yml"
                         echo '✓ Configuration files copied'
                         
                         // 2. Copy environment file (if exists)
-                        sh "scp VitoTechWebsiteBackend/.env ${SERVER_USER}@${SERVER_IP}:/root/vito/VitoTechWebsiteBackend/.env || echo 'No .env file to copy'"
+                        sh "scp -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no VitoTechWebsiteBackend/.env ${SERVER_USER}@${SERVER_IP}:/root/vito/VitoTechWebsiteBackend/.env || echo 'No .env file to copy'"
                         
                         // 3. Deploy with zero-downtime strategy
                         def remoteCommand = """
@@ -250,7 +250,7 @@ pipeline {
                             docker-compose ps
                         """
                         
-                        sh "ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} '${remoteCommand}'"
+                        sh "ssh -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} '${remoteCommand}'"
                         
                         echo '✓ Deployment completed successfully'
                     } catch (Exception e) {
@@ -269,7 +269,7 @@ pipeline {
                     try {
                         // Health check (customize based on your application)
                         sh """
-                            ssh -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} '
+                            ssh -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} '
                                 # Check if containers are running
                                 docker-compose -f /root/vito/docker-compose.yml ps
                                 
