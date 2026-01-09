@@ -45,49 +45,13 @@ pipeline {
                     echo "========================================="
                     
                     // Send notification email about new commit
-                    emailext (
-                        subject: "🔔 New Commit to ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                        body: """
-                        <html>
-                        <body style="font-family: Arial, sans-serif;">
-                            <h2 style="color: #4CAF50;">📦 New Commit Detected</h2>
-                            <table style="border-collapse: collapse; width: 100%;">
-                                <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Project:</strong></td>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">${env.JOB_NAME}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Build Number:</strong></td>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">#${env.BUILD_NUMBER}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Commit Author:</strong></td>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_AUTHOR_NAME} &lt;${env.GIT_AUTHOR_EMAIL}&gt;</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Commit Hash:</strong></td>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_COMMIT_SHORT}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Commit Message:</strong></td>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_COMMIT_MSG}</td>
-                                </tr>
-                                <tr>
-                                    <td style="padding: 8px; border: 1px solid #ddd;"><strong>Build Started:</strong></td>
-                                    <td style="padding: 8px; border: 1px solid #ddd;">${new Date()}</td>
-                                </tr>
-                            </table>
-                            <p style="margin-top: 20px;">
-                                <strong>Status:</strong> Build in progress...<br>
-                                <a href="${env.BUILD_URL}" style="color: #2196F3;">View Build</a> | 
-                                <a href="${env.BUILD_URL}console" style="color: #2196F3;">Console Output</a>
-                            </p>
-                        </body>
-                        </html>
-                        """,
-                        to: "${env.EMAIL_RECIPIENTS}",
-                        mimeType: 'text/html'
-                    )
+                    // Email notifications are temporarily disabled due to network port blocking
+                    // emailext (
+                    //     subject: "🔔 New Commit to ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                    //     body: """...""",
+                    //     to: "${env.EMAIL_RECIPIENTS}",
+                    //     mimeType: 'text/html'
+                    // )
                 }
             }
         }
@@ -293,64 +257,13 @@ pipeline {
                 echo '✓ PIPELINE SUCCEEDED!'
                 echo '========================================='
                 
-                emailext (
-                    subject: "✅ SUCCESS: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                    body: """
-                    <html>
-                    <body style="font-family: Arial, sans-serif;">
-                        <h2 style="color: #4CAF50;">✅ Build and Deployment Successful!</h2>
-                        <table style="border-collapse: collapse; width: 100%;">
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Project:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.JOB_NAME}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Build Number:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">#${env.BUILD_NUMBER}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Build Status:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><span style="color: #4CAF50; font-weight: bold;">SUCCESS</span></td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Duration:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${currentBuild.durationString.replace(' and counting', '')}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Commit Author:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_AUTHOR_NAME} &lt;${env.GIT_AUTHOR_EMAIL}&gt;</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Commit Hash:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_COMMIT_SHORT}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Commit Message:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_COMMIT_MSG}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Deployed to:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.SERVER_IP}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Completed At:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${new Date()}</td>
-                            </tr>
-                        </table>
-                        <div style="margin-top: 20px; padding: 15px; background-color: #e8f5e9; border-left: 4px solid #4CAF50;">
-                            <strong>✓ All stages completed successfully</strong><br>
-                            <small>Your application has been deployed to production.</small>
-                        </div>
-                        <p style="margin-top: 20px;">
-                            <a href="${env.BUILD_URL}" style="display: inline-block; padding: 10px 20px; background-color: #4CAF50; color: white; text-decoration: none; border-radius: 4px;">View Build Details</a>
-                            <a href="${env.BUILD_URL}console" style="display: inline-block; padding: 10px 20px; background-color: #2196F3; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px;">Console Output</a>
-                        </p>
-                    </body>
-                    </html>
-                    """,
-                    to: "${env.EMAIL_RECIPIENTS}",
-                    mimeType: 'text/html'
-                )
+                // Email notifications are temporarily disabled due to network port blocking
+                // emailext (
+                //     subject: "✅ SUCCESS: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                //     body: """...""",
+                //     to: "${env.EMAIL_RECIPIENTS}",
+                //     mimeType: 'text/html'
+                // )
             }
         }
         
@@ -368,103 +281,25 @@ pipeline {
                     errorLog = "Could not retrieve error logs"
                 }
                 
-                emailext (
-                    subject: "❌ FAILURE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                    body: """
-                    <html>
-                    <body style="font-family: Arial, sans-serif;">
-                        <h2 style="color: #f44336;">❌ Build Failed!</h2>
-                        <table style="border-collapse: collapse; width: 100%;">
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Project:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.JOB_NAME}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Build Number:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">#${env.BUILD_NUMBER}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Build Status:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><span style="color: #f44336; font-weight: bold;">FAILURE</span></td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Duration:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${currentBuild.durationString.replace(' and counting', '')}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Commit Author:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_AUTHOR_NAME} &lt;${env.GIT_AUTHOR_EMAIL}&gt;</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Commit Hash:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_COMMIT_SHORT}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Commit Message:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_COMMIT_MSG}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Failed Stage:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.STAGE_NAME ?: 'Unknown'}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd; background-color: #f2f2f2;"><strong>Failed At:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${new Date()}</td>
-                            </tr>
-                        </table>
-                        <div style="margin-top: 20px; padding: 15px; background-color: #ffebee; border-left: 4px solid #f44336;">
-                            <strong>⚠ Action Required</strong><br>
-                            <small>The build has failed. Please review the error logs below and fix the issues.</small>
-                        </div>
-                        <div style="margin-top: 20px;">
-                            <h3>Recent Error Logs:</h3>
-                            <pre style="background-color: #f5f5f5; padding: 15px; border-radius: 4px; overflow-x: auto; border: 1px solid #ddd;">${errorLog}</pre>
-                        </div>
-                        <p style="margin-top: 20px;">
-                            <a href="${env.BUILD_URL}" style="display: inline-block; padding: 10px 20px; background-color: #f44336; color: white; text-decoration: none; border-radius: 4px;">View Build Details</a>
-                            <a href="${env.BUILD_URL}console" style="display: inline-block; padding: 10px 20px; background-color: #FF9800; color: white; text-decoration: none; border-radius: 4px; margin-left: 10px;">Full Console Output</a>
-                        </p>
-                    </body>
-                    </html>
-                    """,
-                    to: "${env.EMAIL_RECIPIENTS}",
-                    mimeType: 'text/html'
-                )
+                // Email notifications are temporarily disabled due to network port blocking
+                // emailext (
+                //     subject: "❌ FAILURE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                //     body: """...""",
+                //     to: "${env.EMAIL_RECIPIENTS}",
+                //     mimeType: 'text/html'
+                // )
             }
         }
         
         unstable {
             script {
-                emailext (
-                    subject: "⚠ UNSTABLE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                    body: """
-                    <html>
-                    <body style="font-family: Arial, sans-serif;">
-                        <h2 style="color: #FF9800;">⚠ Build Unstable</h2>
-                        <p>The build completed but is marked as unstable. This usually indicates test failures or warnings.</p>
-                        <table style="border-collapse: collapse; width: 100%;">
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Project:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.JOB_NAME}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Build Number:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">#${env.BUILD_NUMBER}</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 8px; border: 1px solid #ddd;"><strong>Commit Author:</strong></td>
-                                <td style="padding: 8px; border: 1px solid #ddd;">${env.GIT_AUTHOR_NAME} &lt;${env.GIT_AUTHOR_EMAIL}&gt;</td>
-                            </tr>
-                        </table>
-                        <p style="margin-top: 20px;">
-                            <a href="${env.BUILD_URL}console" style="color: #FF9800;">View Console Output</a>
-                        </p>
-                    </body>
-                    </html>
-                    """,
-                    to: "${env.EMAIL_RECIPIENTS}",
-                    mimeType: 'text/html'
-                )
+                    // Email notifications are temporarily disabled due to network port blocking
+                    // emailext (
+                    //     subject: "⚠ UNSTABLE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
+                    //     body: """...""",
+                    //     to: "${env.EMAIL_RECIPIENTS}",
+                    //     mimeType: 'text/html'
+                    // )
             }
         }
         
