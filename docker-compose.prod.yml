@@ -6,8 +6,13 @@ services:
     restart: always
     ports:
       - "9001:8000"
+    volumes:
+      - ./db_data:/app/db_data
+      - ./media:/app/media
     environment:
       - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend
+      - DB_NAME=/app/db_data/db.sqlite3
+      - MEDIA_ROOT=/app/media
       # Add other env vars here or use an env_file
       # Command to run migrations and then start the server
     command: sh -c "python manage.py migrate && gunicorn VitoTechWebsite.wsgi:application --bind 0.0.0.0:8000"
