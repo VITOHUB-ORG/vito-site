@@ -1,0 +1,23 @@
+services:
+  # Backend Service
+  backend:
+    image: kiruma05/vito-backend:latest
+    container_name: vito_backend
+    restart: always
+    ports:
+      - "9001:8000"
+    environment:
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend
+      # Add other env vars here or use an env_file
+      # Command to run migrations and then start the server
+    command: sh -c "python manage.py migrate && gunicorn VitoTechWebsite.wsgi:application --bind 0.0.0.0:8000"
+
+  # Frontend Service
+  frontend:
+    image: kiruma05/vito-frontend:latest
+    container_name: vito_frontend
+    restart: always
+    ports:
+      - "9000:80"
+    depends_on:
+      - backend

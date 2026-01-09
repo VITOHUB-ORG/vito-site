@@ -180,24 +180,29 @@ pipeline {
                     echo '========================================='
                     echo 'Deploying to Production Server...'
                     echo '========================================='
+                    
+                    def remoteDir = "/root/vito_deploy"
+                    def sshCmd = "ssh -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP}"
+                    def scpCmd = "scp -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no"
+
                     try {
-                        // 1. Copy configuration files
-                        sh "scp -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no docker-compose.yml ${SERVER_USER}@${SERVER_IP}:/root/vito/docker-compose.yml"
-                        echo '✓ Configuration files copied'
+                        // 1. Create directory if it doesn't exist
+                        sh "${sshCmd} 'mkdir -p ${remoteDir}'"
                         
-                        // 2. Copy environment file (if exists)
-                        sh "scp -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no VitoTechWebsiteBackend/.env ${SERVER_USER}@${SERVER_IP}:/root/vito/VitoTechWebsiteBackend/.env || echo 'No .env file to copy'"
+                        // 2. Copy configuration files
+                        sh "${scpCmd} docker-compose.prod.yml ${SERVER_USER}@${SERVER_IP}:${remoteDir}/docker-compose.prod.yml"
+                        echo '✓ Configuration files copied'
                         
                         // 3. Deploy with zero-downtime strategy
                         def remoteCommand = """
                             set -e
-                            cd /root/vito
+                            cd ${remoteDir}
                             
                             echo "Pulling latest images..."
-                            docker-compose pull
+                            docker compose -f docker-compose.prod.yml pull
                             
                             echo "Starting new containers..."
-                            docker-compose up -d
+                            docker compose -f docker-compose.prod.yml up -d
                             
                             echo "Waiting for services to be healthy..."
                             sleep 10
@@ -206,10 +211,10 @@ pipeline {
                             docker image prune -f
                             
                             echo "Deployment completed successfully!"
-                            docker-compose ps
+                            docker compose -f docker-compose.prod.yml ps
                         """
                         
-                        sh "ssh -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} '${remoteCommand}'"
+                        sh "${sshCmd} '${remoteCommand}'"
                         
                         echo '✓ Deployment completed successfully'
                     } catch (Exception e) {
@@ -230,7 +235,7 @@ pipeline {
                         sh """
                             ssh -i /var/jenkins_home/.ssh/id_ed25519 -o StrictHostKeyChecking=no ${SERVER_USER}@${SERVER_IP} '
                                 # Check if containers are running
-                                docker-compose -f /root/vito/docker-compose.yml ps
+                                docker compose -f /root/vito_deploy/docker-compose.prod.yml ps
                                 
                                 # Optional: Add health check curl commands
                                 # curl -f http://localhost:3000/health || exit 1
