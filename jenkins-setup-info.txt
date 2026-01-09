@@ -1,0 +1,20 @@
+========================================
+JENKINS SETUP INFORMATION
+========================================
+Installation Date: Thu Jan  8 10:32:40 UTC 2026
+Jenkins URL: http://206.189.112.134:9002/jenkins
+Jenkins Port: 9002
+Agent Port: 50000
+Initial Admin Password: 
+
+Container Name: jenkins
+Docker Compose File: /root/vito/docker-compose.jenkins.yml
+
+Useful Commands:
+- View Jenkins logs: docker logs -f jenkins
+- Restart Jenkins: docker restart jenkins
+- Stop Jenkins: docker-compose -f /root/vito/docker-compose.jenkins.yml down
+- Start Jenkins: docker-compose -f /root/vito/docker-compose.jenkins.yml up -d
+- Get admin password: docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+
+========================================

@@ -25,6 +25,7 @@ const PROJECTS: Project[] = [
     id: "designing",
     title: "Designing",
     category: "ux",
+
     image: "images/vto/web1.png",
     description:
       "We work hard on every on designing strategies to deliver top-notch features with great UI/UX and effectively functionalities that you won't find anywhere else.",
@@ -35,16 +36,19 @@ const PROJECTS: Project[] = [
     image: "images/vto/Tech 4.png",
     description:
       "We work hard on every app to deliver top-notch features with great UI that you won't find anywhere else.",
+
   },
   {
     id: "ai-automation",
     title: "AI-Automation",
     category: "web",
+
     image: "images/vto/tt1.png",
     description:
       "We work hard on every web developement to deliver top-notch features with great UI that you won't find anywhere else.",
   },
  
+
   {
     id: "finance-app",
     title: "Finance App",
@@ -63,6 +67,7 @@ const PROJECTS: Project[] = [
   },
   {
     id: "toms-web",
+
     title: "Web App",
     category: "web",
     image: "images/vto/web 2.png",
@@ -75,6 +80,7 @@ const PROJECTS: Project[] = [
     title: "We Decorate",
     category: "custom",
     image: "images/vto/Tech 3.png",
+
     description:
       "We work hard on every app to deliver top-notch features with great UI that you won't find anywhere else.",
   },
@@ -83,6 +89,7 @@ const PROJECTS: Project[] = [
     title: "We Innovate",
     category: "qa",
     image: "images/vto/tech 2.png",
+
     description:
       "We work hard on every app to deliver top-notch features with great UI that you won't find anywhere else.",
   },

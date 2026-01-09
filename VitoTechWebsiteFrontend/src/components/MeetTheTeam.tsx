@@ -10,11 +10,13 @@ const TEAM = [
     role: "Software Engineer CFO",
   },
   {
+
     name: "Fidelis Kagashe",
     role: "App & FullStack developer CTO",
   },
   {
     name: "Simon Aswile",
+
     role: "Graphic Designer CMO",
   },
 ];
