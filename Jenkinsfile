@@ -46,12 +46,7 @@ pipeline {
                     
                     // Send notification email about new commit
                     // Email notifications are temporarily disabled due to network port blocking
-                    // emailext (
-                    //     subject: "🔔 New Commit to ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                    //     body: """...""",
-                    //     to: "${env.EMAIL_RECIPIENTS}",
-                    //     mimeType: 'text/html'
-                    // )
+                    echo "🔔 New Commit to ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}"
                 }
             }
         }
@@ -257,13 +252,7 @@ pipeline {
                 echo '✓ PIPELINE SUCCEEDED!'
                 echo '========================================='
                 
-                // Email notifications are temporarily disabled due to network port blocking
-                // emailext (
-                //     subject: "✅ SUCCESS: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                //     body: """...""",
-                //     to: "${env.EMAIL_RECIPIENTS}",
-                //     mimeType: 'text/html'
-                // )
+                echo "✅ SUCCESS: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}"
             }
         }
         
@@ -280,27 +269,15 @@ pipeline {
                 } catch (Exception e) {
                     errorLog = "Could not retrieve error logs"
                 }
-                
-                // Email notifications are temporarily disabled due to network port blocking
-                // emailext (
-                //     subject: "❌ FAILURE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                //     body: """...""",
-                //     to: "${env.EMAIL_RECIPIENTS}",
-                //     mimeType: 'text/html'
-                // )
+
+                echo "❌ FAILURE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}"
             }
         }
         
         unstable {
-            script {
-                    // Email notifications are temporarily disabled due to network port blocking
-                    // emailext (
-                    //     subject: "⚠ UNSTABLE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}",
-                    //     body: """...""",
-                    //     to: "${env.EMAIL_RECIPIENTS}",
-                    //     mimeType: 'text/html'
-                    // )
-            }
+                script {
+                    echo "⚠ UNSTABLE: ${env.JOB_NAME} - Build #${env.BUILD_NUMBER}"
+                }
         }
         
         always {
