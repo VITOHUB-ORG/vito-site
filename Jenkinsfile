@@ -199,10 +199,10 @@ pipeline {
                             cd ${remoteDir}
                             
                             echo "Pulling latest images..."
-                            docker compose -f docker-compose.prod.yml pull
+                            docker-compose -f docker-compose.prod.yml pull
                             
                             echo "Starting new containers..."
-                            docker compose -f docker-compose.prod.yml up -d
+                            docker-compose -f docker-compose.prod.yml up -d
                             
                             echo "Waiting for services to be healthy..."
                             sleep 10
@@ -211,7 +211,7 @@ pipeline {
                             docker image prune -f
                             
                             echo "Deployment completed successfully!"
-                            docker compose -f docker-compose.prod.yml ps
+                            docker-compose -f docker-compose.prod.yml ps
                         """
                         
                         sh "${sshCmd} '${remoteCommand}'"
