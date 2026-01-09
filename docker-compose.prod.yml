@@ -2,7 +2,7 @@ services:
   # Backend Service
   backend:
     image: kiruma05/vito-backend:latest
-    container_name: vito_backend
+    container_name: vito_prod_backend
     restart: always
     ports:
       - "9001:8000"
@@ -20,7 +20,7 @@ services:
   # Frontend Service
   frontend:
     image: kiruma05/vito-frontend:latest
-    container_name: vito_frontend
+    container_name: vito_prod_frontend
     restart: always
     ports:
       - "9000:80"
