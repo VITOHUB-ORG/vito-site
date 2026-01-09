@@ -79,8 +79,8 @@ pipeline {
                     echo 'Building Backend Docker Image...'
                     echo '========================================='
                     try {
-                        sh "docker build -t $DOCKER_IMAGE_BACKEND:latest ./VitoTechWebsiteBackend"
-                        sh "docker build -t $DOCKER_IMAGE_BACKEND:${env.BUILD_NUMBER} ./VitoTechWebsiteBackend"
+                        sh "docker build --no-cache -t $DOCKER_IMAGE_BACKEND:latest ./VitoTechWebsiteBackend"
+                        sh "docker build --no-cache -t $DOCKER_IMAGE_BACKEND:${env.BUILD_NUMBER} ./VitoTechWebsiteBackend"
                         echo '✓ Backend image built successfully'
                     } catch (Exception e) {
                         error "Failed to build backend image: ${e.message}"
@@ -96,8 +96,8 @@ pipeline {
                     echo 'Building Frontend Docker Image...'
                     echo '========================================='
                     try {
-                        sh "docker build -t $DOCKER_IMAGE_FRONTEND:latest ./VitoTechWebsiteFrontend"
-                        sh "docker build -t $DOCKER_IMAGE_FRONTEND:${env.BUILD_NUMBER} ./VitoTechWebsiteFrontend"
+                        sh "docker build --no-cache -t $DOCKER_IMAGE_FRONTEND:latest ./VitoTechWebsiteFrontend"
+                        sh "docker build --no-cache -t $DOCKER_IMAGE_FRONTEND:${env.BUILD_NUMBER} ./VitoTechWebsiteFrontend"
                         echo '✓ Frontend image built successfully'
                     } catch (Exception e) {
                         error "Failed to build frontend image: ${e.message}"
