@@ -1,7 +1,7 @@
 // src/lib/api.ts
 export const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(/\/$/, "") ??
-  "http://127.0.0.1:8000";
+  ""; // Use relative URLs for production (nginx proxies /api/ to backend)
 
 export type ApiError = Error & {
   status?: number;
@@ -40,7 +40,7 @@ export async function request<TResponse>(
 
   // For FormData, let browser set Content-Type with boundary
   const isFormData = options.body instanceof FormData;
-  const baseHeaders: HeadersInit = isFormData 
+  const baseHeaders: HeadersInit = isFormData
     ? getAuthHeaders('') // No Content-Type for FormData
     : getAuthHeaders();
 
@@ -48,9 +48,9 @@ export async function request<TResponse>(
 
   const headers: HeadersInit = extraHeaders
     ? {
-        ...baseHeaders,
-        ...extraHeaders,
-      }
+      ...baseHeaders,
+      ...extraHeaders,
+    }
     : baseHeaders;
 
   const response = await fetch(url, {

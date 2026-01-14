@@ -183,6 +183,8 @@ if _raw_trusted:
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:9000",  # Containerized frontend
+    "http://127.0.0.1:9000",  # Containerized frontend
     "https://www.vitohub.org",
     "https://vitohub.org",
 ]
