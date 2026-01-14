@@ -8,6 +8,7 @@ services:
       - "9001:8000"
     environment:
       - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend,206.189.112.134,vitohub.org,www.vitohub.org
+      - DJANGO_CSRF_TRUSTED_ORIGINS=https://vitohub.org,https://www.vitohub.org
       # Add other env vars here or use an env_file
       # Command to run migrations and then start the server
     command: sh -c "python manage.py migrate && gunicorn VitoTechWebsite.wsgi:application --bind 0.0.0.0:8000"
