@@ -82,14 +82,28 @@ class NotificationViewSet(viewsets.ModelViewSet):
 
         - one to the VitoTech team (admin notification),
         - one to the visitor confirming receipt.
+        
+        NOTE: Emails are sent in a background thread to prevent blocking the response
+        if the email server is slow or unreachable (e.g. firewall issues).
         """
         notification = serializer.save()
 
-        # E-mail to internal VitoTech address (DEFAULT_FROM_EMAIL)
-        send_admin_notification_email(notification)
+        def send_emails_in_background(notif):
+            try:
+                # E-mail to internal VitoTech address (DEFAULT_FROM_EMAIL)
+                send_admin_notification_email(notif)
+                
+                # Acknowledgement e-mail to the visitor
+                send_user_ack_email(notif)
+            except Exception as e:
+                # Log error silently (or use logging module)
+                print(f"Error sending background emails: {e}")
 
-        # Acknowledgement e-mail to the visitor
-        send_user_ack_email(notification)
+        # Start background thread
+        import threading
+        email_thread = threading.Thread(target=send_emails_in_background, args=(notification,))
+        email_thread.daemon = True
+        email_thread.start()
 
     @action(detail=True, methods=["post"])
     def mark_read(self, request, pk=None):
