@@ -2,17 +2,12 @@ services:
   # Backend Service
   backend:
     image: kiruma05/vito-backend:latest
-    container_name: vito_prod_backend
+    container_name: vito_backend
     restart: always
     ports:
       - "9001:8000"
-    volumes:
-      - ./db_data:/app/db_data
-      - ./media:/app/media
     environment:
-      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend
-      - DB_NAME=/app/db_data/db.sqlite3
-      - MEDIA_ROOT=/app/media
+      - DJANGO_ALLOWED_HOSTS=localhost,127.0.0.1,backend,206.189.112.134,vitohub.org,www.vitohub.org
       # Add other env vars here or use an env_file
       # Command to run migrations and then start the server
     command: sh -c "python manage.py migrate && gunicorn VitoTechWebsite.wsgi:application --bind 0.0.0.0:8000"
@@ -20,7 +15,7 @@ services:
   # Frontend Service
   frontend:
     image: kiruma05/vito-frontend:latest
-    container_name: vito_prod_frontend
+    container_name: vito_frontend
     restart: always
     ports:
       - "9000:80"
